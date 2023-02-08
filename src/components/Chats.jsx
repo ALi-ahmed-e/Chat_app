@@ -14,7 +14,7 @@ const Chats = () => {
         const getChats = () => {
 
             const unsub = onSnapshot(doc(db, "userChats", user.uid), (doc) => {
-              Object.entries(doc.data()) == ''?seterr(<span className=' mx-auto my-5 opacity-75'>You dont have friends.</span>):seterr()
+                Object.entries(doc.data()) == ''?seterr(<span className=' mx-auto my-5 opacity-75'>You dont have friends.</span>):seterr()
                 setChats(doc.data())
             });
 

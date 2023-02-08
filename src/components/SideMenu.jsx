@@ -140,18 +140,17 @@ const SideMenu = () => {
     }
 
 
-
     return (
         <div style={sbm ? { 'transform': 'translateX(-100%)' } : { 'transform': 'translateX(0)' }} className='bg-slate-900  z-50 trns sm:w-96 h-screen flex flex-col  transition-all sm:relative absolute'>
 
             <Bars3CenterLeftIcon className=' w-8 cursor-pointer rounded-sm  sm:hidden  absolute -right-10 top-10' onClick={() => setsbm(!sbm)} />
 
             <div className='  py-2 mb-2 h-13 bg-slate-800 flex items-center'>
-                {showProfile ? <><img src={user.image} alt="User image" className=' w-10 h-10 rounded-full mx-2  ring-2 ring-indigo-600 active:ring-sky-500' onClick={() => setshowProfile(false)} />
-                    <span className=' font-semibold'>{user.name}</span></> : <span onClick={() => setshowProfile(true)} className=' flex items-center cursor-pointer'><ArrowSmallLeftIcon className=' w-6 ml-5' />back</span>}
+                {!showProfile ? <><img src={user.image} alt="User image" className=' w-10 h-10 rounded-full mx-2  ring-2 ring-indigo-600 active:ring-sky-500' onClick={() => setshowProfile(true)} />
+                    <span className=' font-semibold'>{user.name}</span></> : <span onClick={() => setshowProfile(false)} className=' flex items-center cursor-pointer'><ArrowSmallLeftIcon className=' w-6 ml-5' />back</span>}
             </div>
 
-            {showProfile ? <>
+            {!showProfile ? <>
 
 
 
