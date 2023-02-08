@@ -67,7 +67,7 @@ function App() {
 
   return (
     <>
-      {isLoading && <div className=" fixed z-50 top-0 bottom-0 left-0 right-0 flex items-center justify-center flex-col bg-black/90 backdrop-blur-xl"><span className="loader"></span><div className="text-white mt-8 animate-pulse">Loading...</div></div>}
+      {isLoading && <div className=" fixed z-50 top-0 bottom-0 left-0 right-0 flex items-center justify-center flex-col bg-black/90 backdrop-blur-xl"><span className="loader " id="scale-2"/><div className="text-white mt-8 animate-pulse">Loading...</div></div>}
       <BrowserRouter>
         {/* {user && <Navbar />} */}
         <Routes>

@@ -8,12 +8,17 @@ const ChatSlice = createSlice({
     name: 'Chat',
     initialState: {
         user:{},
-        chatId:null
+        chatId:null,
     },
     reducers: {
         ChatTransporter(state, action) {
             state.user = action.payload.user
             state.chatId = action.payload.chatId
+
+        },
+        Resetin(state, action) {
+            state.user = {}
+            state.chatId = null
 
         }
     },
@@ -23,4 +28,4 @@ const ChatSlice = createSlice({
 
 })
 export default ChatSlice.reducer
-export const {ChatTransporter} = ChatSlice.actions
+export const {ChatTransporter,Resetin} = ChatSlice.actions
