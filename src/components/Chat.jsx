@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react'
 import { ArrowSmallLeftIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
-import { deleteDoc, deleteField, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { arrayRemove, deleteDoc, deleteField, doc, getDoc, updateDoc } from 'firebase/firestore'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { db } from '../firebase'
@@ -35,6 +35,12 @@ const Chat = () => {
                     [chatId]: deleteField()
                 });
 
+                await updateDoc(doc(db, "users", Currentuser.uid), {
+                    friends: arrayRemove(user.uid)
+                });
+                await updateDoc(doc(db, "users", user.uid), {
+                    friends: arrayRemove(Currentuser.uid)
+                });
                 const filteredArr = user.friends.filter(element => element !== user.uid)
                 let newusr = Object.assign({}, Currentuser)
                 newusr.friends = filteredArr

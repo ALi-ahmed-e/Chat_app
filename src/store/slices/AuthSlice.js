@@ -33,6 +33,9 @@ export const signIn = createAsyncThunk('auth/singin', async ({ email, password, 
                 }
                 await setDoc(doc(db, "users", user.uid), data);
                 await setDoc(doc(db, "userChats", user.uid), {});
+                await setDoc(doc(db, "notifications", user.uid), {
+                    messages:[]
+                });
                 localStorage.setItem('user', JSON.stringify(data))
 
                 window.location.reload()
@@ -95,8 +98,9 @@ export const register = createAsyncThunk('auth/register', async ({ email, passwo
             }
             await setDoc(doc(db, "users", user.uid), data);
             await setDoc(doc(db, "userChats", user.uid), {});
-
-            localStorage.setItem('user', JSON.stringify(data))
+            await setDoc(doc(db, "notifications", user.uid), {
+                messages:[]
+            });            localStorage.setItem('user', JSON.stringify(data))
             window.location.reload()
             return data
 

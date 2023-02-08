@@ -6,8 +6,9 @@ import Home from "./components/Home";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from './firebase';
+import { db, messaging } from './firebase';
 import { changeuser } from './store/slices/AuthSlice';
+import { getToken } from 'firebase/messaging';
 
 
 
@@ -19,18 +20,41 @@ function App() {
 
 
   useEffect(() => {
+    
     const updateUser = async () => {
       const res = await getDoc(doc(db, 'users', user.uid))
-      localStorage.setItem('user',JSON.stringify(res.data()))
+      localStorage.setItem('user', JSON.stringify(res.data()))
       dispatch(changeuser(res.data()))
     }
-    updateUser() 
+    user&&updateUser()
   }, []);
 
-  // setTimeout(() => {
-  //   window.open('www.google.com')
-  // }, 600);
+  // useEffect(() => {
+  //   const requestPermission = () => {
 
+
+  //     console.log('Requesting permission...');
+
+  //     Notification.requestPermission().then(async (permission) => {
+  //       if (permission === 'granted') {
+  //         console.log('Notification permission granted.');
+  //         const token = await getToken(messaging, { vapidKey: "BDOG0pN0WoYOtSncygRucucNwxXmwtKo8nUduV4GEIBqjA0_5Ca6eXGjUVXmM8Mfx82OA5PNn64q4JX3z_dwlLA" })
+  //         console.log(token)
+  //       } else {
+  //         console.log('Notification permission disgranted.');
+  //       }
+
+  //     })
+
+
+
+  //   }
+
+  //   requestPermission()
+
+
+
+  // }, []);
 
 
   const CheckAuth = ({ children }) => {

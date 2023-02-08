@@ -91,6 +91,15 @@ const Input = ({ chatId, other }) => {
                 [chatId + '.lastMessage']: { text: e.target.text.value },
                 [chatId + '.date']: serverTimestamp(),
             })
+            await updateDoc(doc(db, 'notifications', other.uid), {
+                messages:arrayUnion({
+                    text: e.target.text.value,
+                    senderId: user.uid,
+                    senderName:user.name,
+                    date: Timestamp.now()
+                })
+            })
+
 
             e.target.text.value = ''
             setsfile('')
