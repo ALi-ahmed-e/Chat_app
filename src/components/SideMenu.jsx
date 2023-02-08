@@ -223,6 +223,8 @@ const SideMenu = () => {
                 <textarea onChange={e => setBio(e.target.value)} placeholder='bio' defaultValue={user.bio} type="text" className=' border-[1px] rounded-md outline-none font-semibold  p-3   bg-transparent  text-center ' />
 
                 <button onClick={SaveProfChanges} className=' px-2 py-1 rounded-md bg-green-600 hover:bg-green-700 text-white my-4'>Save</button>
+
+                <button onClick={SaveProfChanges} className=' px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white my-4'>LogOut</button>
             </div>}
         </div>
     )
