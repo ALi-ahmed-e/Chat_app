@@ -21,12 +21,15 @@ function App() {
   useEffect(() => {
     const updateUser = async () => {
       const res = await getDoc(doc(db, 'users', user.uid))
+      localStorage.setItem('user',JSON.stringify(res.data()))
       dispatch(changeuser(res.data()))
     }
     updateUser() 
   }, []);
 
-
+  // setTimeout(() => {
+  //   window.open('www.google.com')
+  // }, 600);
 
 
 
