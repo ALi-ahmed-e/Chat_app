@@ -40,7 +40,6 @@ const Chat = () => {
                 newusr.friends = filteredArr
                 localStorage.setItem('user', JSON.stringify(newusr))
                 dispatch(changeuser(newusr))
-
                 dispatch(Resetin())
 
             }
