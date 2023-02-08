@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { ArrowSmallLeftIcon, Bars3CenterLeftIcon, MagnifyingGlassIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { arrayUnion, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
-import { db, storage } from '../firebase'
+import { auth, db, storage } from '../firebase'
 import Chats from './Chats'
 import { ChatTransporter } from '../store/slices/ChatSlice';
 import { changeuser } from '../store/slices/AuthSlice'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { signOut } from 'firebase/auth'
 
 
 const SideMenu = () => {
@@ -139,6 +140,15 @@ const SideMenu = () => {
 
     }
 
+    const logout = () => {
+        signOut(auth).then(() => {
+            localStorage.clear()
+            window.location.reload()
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+
 
     return (
         <div style={sbm ? { 'transform': 'translateX(-100%)' } : { 'transform': 'translateX(0)' }} className='bg-slate-900  z-50 trns sm:w-96 h-screen flex flex-col  transition-all sm:relative absolute'>
@@ -224,7 +234,7 @@ const SideMenu = () => {
 
                 <button onClick={SaveProfChanges} className=' px-2 py-1 rounded-md bg-green-600 hover:bg-green-700 text-white my-4'>Save</button>
 
-                <button onClick={SaveProfChanges} className=' px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white my-4'>LogOut</button>
+                <button onClick={logout} className=' px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white my-4'>LogOut</button>
             </div>}
         </div>
     )

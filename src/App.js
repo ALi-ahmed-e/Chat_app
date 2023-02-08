@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
 import './App.css';
 import Register from "./components/Register";
 import Signin from './components/Signin'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Home from "./components/Home";
 import { useSelector } from "react-redux";
-import Navbar from "./components/Navbar";
-import SideMenu from "./components/SideMenu";
 
 
 
