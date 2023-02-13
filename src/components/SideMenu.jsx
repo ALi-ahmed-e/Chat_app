@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { ArrowSmallLeftIcon, Bars3CenterLeftIcon, BellIcon, MagnifyingGlassIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
@@ -10,7 +10,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { signOut } from 'firebase/auth'
 import { Popover, Transition } from '@headlessui/react'
 import Notificationn from './Notification'
-
+import msg_sound from '../msg_sound.mp3'
 
 const SideMenu = () => {
     const user = useSelector(t => t.auth.user)
@@ -22,6 +22,8 @@ const SideMenu = () => {
     const [Name, setName] = useState(user.name);
     const [Bio, setBio] = useState(user.bio);
     const [msg, setmsg] = useState();
+const sound = useRef()
+
 
     useEffect(() => {
         const getNotifications = () => {
@@ -30,7 +32,8 @@ const SideMenu = () => {
                 let not;
                 setmsg(doc.data())
                 doc.data().messages.map(e => not = e)
-                not && new Notification(`message from ${not.senderName}`, {
+                sound.current.play()
+                not&& new Notification(`message from ${not.senderName}`, {
                     body: not.text
                 })
 
@@ -192,7 +195,7 @@ const SideMenu = () => {
 
 
 
-
+<audio src={msg_sound} ref={sound}></audio>
 
 
 

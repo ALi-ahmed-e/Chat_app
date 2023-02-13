@@ -32,7 +32,7 @@ const Notificationn = ({ msg }) => {
 
                 <div className="font-bold text-base  ml-5">{e.senderName}</div>
 
-                <span className="mt-1 text-sm   break-words  h-fit">{e.text}dddddddddddddddddddddddddddddddddddddddddd</span>
+                <span className="mt-1 text-sm   break-words  h-fit">{e.text}</span>
 
 
 
