@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { auth, db, storage } from '../firebase'
 import Chats from './Chats'
-import { ChatTransporter } from '../store/slices/ChatSlice';
+import { ChatTransporter, notifications } from '../store/slices/ChatSlice';
 import { changeuser } from '../store/slices/AuthSlice'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { signOut } from 'firebase/auth'
@@ -22,8 +22,8 @@ const SideMenu = () => {
     const [Name, setName] = useState(user.name);
     const [Bio, setBio] = useState(user.bio);
     const [msg, setmsg] = useState();
-     const sound = useRef()
-
+    const sound = useRef()
+const [nosearchval, nosetsearchval] = useState();
 
     useEffect(() => {
         const getNotifications = () => {
@@ -31,8 +31,9 @@ const SideMenu = () => {
             const unsub = onSnapshot(doc(db, "notifications", user.uid), (doc) => {
                 let not;
                 setmsg(doc.data())
+                dispatch(notifications(JSON.stringify(doc.data().messages)))
                 doc.data().messages.map(e => not = e)
-                not != undefined&& sound.current.play()
+                not != undefined && sound.current?.play()
 
                 not != undefined && new Notification(`message from ${not.senderName}`, {
                     body: not.text
@@ -67,8 +68,14 @@ const SideMenu = () => {
                 list.push(doc.data())
 
             })
-            setsearchresult(list)
-            e.target.sv.value = ''
+            if (list == '') {
+                nosetsearchval("Can't find user!")
+            } else {
+                nosetsearchval()
+                setsearchresult(list)
+                e.target.sv.value = ''
+            }
+
         } catch (error) {
             console.log(error)
         }
@@ -210,8 +217,8 @@ const SideMenu = () => {
                                 >
                                     <div className=' w-fit items-center mx-5 justify-center'>
                                         <BellIcon className=' w-7 text-white  cursor-pointer hover:bg-slate-600/70 rounded-md ' />
-                                      {msg?.messages !='' &&  <div className=' w-2 h-2 absolute -mt-6 ml-1 rounded-full bg-red-600'></div>}
-                                      
+                                        {msg?.messages != '' && <div className=' w-2 h-2 absolute -mt-6 ml-1 rounded-full bg-red-600'></div>}
+
                                     </div>
                                 </Popover.Button>
                                 <Transition
@@ -255,6 +262,8 @@ const SideMenu = () => {
 
                 </form>
                 <div className=' flex flex-col border-b-2 border-slate-600 my-2'>
+                
+               <div className=" w-full text-center">{nosearchval}</div>
 
                     {searchresult.map(e => <div key={e.uid} onClick={() => { !user.friends.includes(e.uid) && selected(e) }} className=' w-full justify-between h-16 flex items-center border-b-[0.5px] border-slate-700 mx-auto hover:bg-slate-800 cursor-pointer'>
                         <div className='flex items-center'>

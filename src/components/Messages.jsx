@@ -31,7 +31,7 @@ const Messages = ({ chatId, other }) => {
 
 
 
-    return (<div className=' w-full h-full flex flex-col justify-start pb-5'>
+    return (<div className=' w-full h-full flex flex-col justify-start pb-3 overflow-scroll scroller'>
 
 
 
