@@ -95,6 +95,7 @@ const Input = ({ chatId, other }) => {
                 messages:arrayUnion({
                     text: e.target.text.value,
                     senderId: user.uid,
+                    senderImage:user.image,
                     senderName:user.name,
                     date: Timestamp.now()
                 })

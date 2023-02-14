@@ -15,33 +15,50 @@ const Notificationn = ({ msg }) => {
         await updateDoc(doc(db, 'notifications', user.uid), {
             messages: []
         })
-        
+
     }
-    const dltths = async(e)=>{
+    const dltths = async (e) => {
         await updateDoc(doc(db, 'notifications', user.uid), {
             messages: arrayRemove(e)
         })
-        
+
     }
 
     return (
         <div>
-            <button onClick={clear} className=" px-2 py-1 rounded-md bg-red-700 hover:bg-red-800 mx-2">Clear</button>
+        {msgs.messages != ''?<>
+        
+        <div className=" w-full text-center">
+        <button onClick={clear} className=" px-2 py-1 mx-auto rounded-md bg-red-700 hover:bg-red-800 ">Clear  {msgs.messages?.length} </button>
+            </div>
 
-            {msgs.messages?.sort((a, b) => b.date - a.date).map(e => <div key={Math.random()} className=' w-[95%]  py-1 px-2 rounded-md flex flex-col  border-[0.5px] border-slate-600 my-3 mx-auto'>
-
-                <div className="font-bold text-base  ml-5">{e.senderName}</div>
-
-                <span className="mt-1 text-sm   break-words  h-fit">{e.text}</span>
-
-
-
-
-                <button onClick={()=>dltths(e)} className=" px-2 py-1 rounded-md bg-red-700 hover:bg-red-800 mx-2 block self-end scale-75">Delete</button>
+            <div className=" h-[1px] w-[95%] bg-slate-500 mx-auto my-4" /></>:<div className=" w-full text-center">No notifications</div>}
 
 
 
-            </div>)}
+            {msgs.messages?.sort((a, b) => b.date - a.date).map(e =>
+
+                <div key={Math.random()} className="flex flex-col p-2 bg-gray-900 hover:opacity-90 m-2 shadow-md hover:shodow-lg rounded-2xl">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+
+                            <img src={e.senderImage} className=' w-16 h-16 rounded-2xl p-3 border border-gray-800 text-blue-400 ' alt="sender image" />
+                            <div className="flex flex-col ml-3">
+                                <div className="font-medium leading-none text-gray-100">
+                                    {e.senderName}
+                                </div>
+                                <p className="text-sm text-gray-500 leading-none mt-1  ">
+                                    {e.text.length > 6 ? `${e.text.slice(0,8)}...`:e.text}
+                                </p>
+                            </div>
+                        </div>
+                        <button onClick={() => dltths(e)} className="flex-no-shrink bg-red-500  px-1 hover:bg-red-600 ml-4 py-1 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider text-white rounded-md">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+            )}
         </div>
     )
 }

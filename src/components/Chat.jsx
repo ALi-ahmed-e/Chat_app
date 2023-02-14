@@ -41,7 +41,7 @@ const Chat = () => {
                 await updateDoc(doc(db, "users", user.uid), {
                     friends: arrayRemove(Currentuser.uid)
                 });
-                const filteredArr = user.friends.filter(element => element !== user.uid)
+                const filteredArr = Currentuser.friends.filter(element => element !== user.uid)
                 let newusr = Object.assign({}, Currentuser)
                 newusr.friends = filteredArr
                 localStorage.setItem('user', JSON.stringify(newusr))

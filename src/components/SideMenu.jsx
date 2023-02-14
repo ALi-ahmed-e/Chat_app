@@ -22,7 +22,7 @@ const SideMenu = () => {
     const [Name, setName] = useState(user.name);
     const [Bio, setBio] = useState(user.bio);
     const [msg, setmsg] = useState();
-const sound = useRef()
+     const sound = useRef()
 
 
     useEffect(() => {
@@ -32,8 +32,9 @@ const sound = useRef()
                 let not;
                 setmsg(doc.data())
                 doc.data().messages.map(e => not = e)
-                sound.current.play()
-                not&& new Notification(`message from ${not.senderName}`, {
+                not != undefined&& sound.current.play()
+
+                not != undefined && new Notification(`message from ${not.senderName}`, {
                     body: not.text
                 })
 
@@ -195,7 +196,7 @@ const sound = useRef()
 
 
 
-<audio src={msg_sound} ref={sound}></audio>
+                    <audio src={msg_sound} ref={sound}></audio>
 
 
 
@@ -207,8 +208,11 @@ const sound = useRef()
                                 <Popover.Button
                                     className={`${open ? '' : 'text-opacity-90'} outline-none  `}
                                 >
-                                    <BellIcon className=' w-8 text-white mx-5 cursor-pointer hover:bg-slate-600/70 rounded-md p-1' />
-
+                                    <div className=' w-fit items-center mx-5 justify-center'>
+                                        <BellIcon className=' w-7 text-white  cursor-pointer hover:bg-slate-600/70 rounded-md ' />
+                                      {msg?.messages !='' &&  <div className=' w-2 h-2 absolute -mt-6 ml-1 rounded-full bg-red-600'></div>}
+                                      
+                                    </div>
                                 </Popover.Button>
                                 <Transition
                                     as={Fragment} enter="transition ease-out duration-200" enterFrom="opacity-0 translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 translate-y-1" >
