@@ -10,13 +10,12 @@ import { Resetin } from '../store/slices/ChatSlice';
 import { changeuser, loading } from '../store/slices/AuthSlice'
 
 const Chat = () => {
-    const { user, chatId } = useSelector(e => e.chat)
+    const { user, chatId, notifications } = useSelector(e => e.chat)
     const Currentuser = useSelector(t => t.auth.user)
     const dispatch = useDispatch()
     const classNames = (...classes) => classes.filter(Boolean).join(' ')
     const [contact, setcontact] = useState();
 
-    
 
 
     const unfriend = async () => {
@@ -41,6 +40,10 @@ const Chat = () => {
                 await updateDoc(doc(db, "users", user.uid), {
                     friends: arrayRemove(Currentuser.uid)
                 });
+                await updateDoc(doc(db, 'notifications', Currentuser.uid), {
+                    messages: notifications.filter(e => e.senderId != user.uid)
+
+                })
                 const filteredArr = Currentuser.friends.filter(element => element !== user.uid)
                 let newusr = Object.assign({}, Currentuser)
                 newusr.friends = filteredArr
@@ -58,7 +61,15 @@ const Chat = () => {
 
 
     }
+    useEffect(() => {
+        const seenMsg = async () => {
+            await updateDoc(doc(db, 'notifications', Currentuser.uid), {
+                messages: notifications.filter(e => e.senderId != user.uid)
 
+            })
+        }
+        user && seenMsg()
+    }, [user]);
 
 
 
@@ -129,7 +140,8 @@ const Chat = () => {
 
                                                 onClick={() => {
                                                     setcontact()
-                                                    dispatch(Resetin())}}
+                                                    dispatch(Resetin())
+                                                }}
                                                 className={classNames(
                                                     active ? 'bg-gray-100 dark:bg-gray-900 dark:text-slate-100 text-gray-900  cursor-pointer ' : 'text-gray-700 dark:text-slate-100 cursor-pointer',
                                                     ' px-4 py-2 text-sm  cursor-pointer '
@@ -156,7 +168,7 @@ const Chat = () => {
                     <span className=' font-semibold text-xl my-10'>{contact.name}</span>
                 </div> : <>
 
-                    <div className=' h-full bg-slate-300 w-full max-h-full overflow-scroll scroller '>
+                    <div className=' h-full bg-slate-300 w-full max-h-full overflow-hidden  '>
                         <Messages chatId={chatId} other={user} />
 
                     </div>
