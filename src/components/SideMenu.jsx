@@ -189,7 +189,7 @@ const SideMenu = () => {
 
 
     return (<>
-        <div className=' w-7 h-7  fixed top-10 left-3 z-50'><Bars3CenterLeftIcon className=' w-8 cursor-pointer text-white' onClick={() => setsbm(!sbm)} /></div>
+        <div className=' w-7 h-7 sm:hidden   fixed top-10 left-3 z-50'><Bars3CenterLeftIcon className=' w-8 cursor-pointer text-white' onClick={() => setsbm(!sbm)} /></div>
 
         <div style={sbm ? { 'transform': 'translateX(-100%)' } : { 'transform': 'translateX(0)' }} className='bg-slate-900  z-50 trns sm:w-96 w-full overflow-hidden  h-screen flex flex-col  transition-all sm:relative absolute'>
 
@@ -233,7 +233,7 @@ const SideMenu = () => {
                         </Popover>
 
 
-                        <XMarkIcon className=' w-8  hover:bg-slate-900/70 rounded-md cursor-pointer transition-all' onClick={() => setsbm(!sbm)} />
+                        <XMarkIcon className='sm:hidden w-8  hover:bg-slate-900/70 rounded-md cursor-pointer transition-all' onClick={() => setsbm(!sbm)} />
 
 
                     </div>
