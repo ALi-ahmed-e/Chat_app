@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { ArrowSmallLeftIcon, Bars3CenterLeftIcon, BellIcon, MagnifyingGlassIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
+import { ArrowSmallLeftIcon, Bars3CenterLeftIcon, BellIcon, MagnifyingGlassIcon, PencilSquareIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { auth, db, storage } from '../firebase'
@@ -23,7 +23,7 @@ const SideMenu = () => {
     const [Bio, setBio] = useState(user.bio);
     const [msg, setmsg] = useState();
     const sound = useRef()
-const [nosearchval, nosetsearchval] = useState();
+    const [nosearchval, nosetsearchval] = useState();
 
     useEffect(() => {
         const getNotifications = () => {
@@ -35,21 +35,16 @@ const [nosearchval, nosetsearchval] = useState();
                 doc.data().messages.map(e => not = e)
                 not != undefined && sound.current?.play()
 
-                not != undefined && new Notification(`message from ${not.senderName}`, {
-                    body: not.text
-                })
+
 
             });
 
             return () => { unsub() }
         }
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                getNotifications()
-            } else {
-                console.log('Notification permission disgranted.');
-            }
-        })
+
+
+        user && getNotifications()
+
 
 
 
@@ -126,7 +121,7 @@ const [nosearchval, nosetsearchval] = useState();
                 newusr.friends = newarr
                 localStorage.setItem('user', JSON.stringify(newusr))
                 dispatch(changeuser(newusr))
-
+                setsbm(!sbm)
 
 
             }
@@ -193,9 +188,11 @@ const [nosearchval, nosetsearchval] = useState();
     }
 
 
-    return (
-        <div style={sbm ? { 'transform': 'translateX(-100%)' } : { 'transform': 'translateX(0)' }} className='bg-slate-900  z-50 trns sm:w-96 h-screen flex flex-col  transition-all sm:relative absolute'>
-            <Bars3CenterLeftIcon className=' w-8 cursor-pointer rounded-sm  sm:hidden  absolute -right-10 top-10' onClick={() => setsbm(!sbm)} />
+    return (<>
+        <div className=' w-7 h-7  fixed top-10 left-3 z-50'><Bars3CenterLeftIcon className=' w-8 cursor-pointer text-white' onClick={() => setsbm(!sbm)} /></div>
+
+        <div style={sbm ? { 'transform': 'translateX(-100%)' } : { 'transform': 'translateX(0)' }} className='bg-slate-900  z-50 trns sm:w-96 w-full overflow-hidden  h-screen flex flex-col  transition-all sm:relative absolute'>
+
 
             <div className='  py-2 mb-2 h-13 bg-slate-800 flex items-center justify-between'>
                 {!showProfile ? <><div className='flex items-center'><img src={user.image} alt="User image" className=' w-10 h-10 rounded-full mx-2  ring-2 ring-indigo-600 active:ring-sky-500' onClick={() => setshowProfile(true)} />
@@ -209,31 +206,37 @@ const [nosearchval, nosetsearchval] = useState();
 
 
 
-                    <Popover className='relative z-50 dark'>
-                        {({ open }) => (
-                            <Fragment>
-                                <Popover.Button
-                                    className={`${open ? '' : 'text-opacity-90'} outline-none  `}
-                                >
-                                    <div className=' w-fit items-center mx-5 justify-center'>
-                                        <BellIcon className=' w-7 text-white  cursor-pointer hover:bg-slate-600/70 rounded-md ' />
-                                        {msg?.messages != '' && <div className=' w-2 h-2 absolute -mt-6 ml-1 rounded-full bg-red-600'></div>}
+                    <div className=' flex pr-2'>
 
-                                    </div>
-                                </Popover.Button>
-                                <Transition
-                                    as={Fragment} enter="transition ease-out duration-200" enterFrom="opacity-0 translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 translate-y-1" >
-                                    <Popover.Panel className="fixed -right-1 top-16 mt-3 w-[99%] max-w-sm   px-4 sm:px-0 max-h-96 overflow-scroll scroller ">
-                                        <div className="  overflow-hidden bg-white py-5 dark:bg-slate-800 dark:text-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
-                                            <Notificationn msg={msg} />
+                        <Popover className='relative z-50 dark'>
+                            {({ open }) => (
+                                <Fragment>
+                                    <Popover.Button
+                                        className={`${open ? '' : 'text-opacity-90'} outline-none  `}
+                                    >
+                                        <div className=' w-fit items-center mx-5 justify-center'>
+                                            <BellIcon className=' w-7 text-white  cursor-pointer hover:bg-slate-600/70 rounded-md ' />
+                                            {msg?.messages != '' && <div className=' w-2 h-2 absolute -mt-6 ml-1 rounded-full bg-red-600'></div>}
+
                                         </div>
-                                    </Popover.Panel>
-                                </Transition>
-                            </Fragment>
-                        )}
-                    </Popover>
+                                    </Popover.Button>
+                                    <Transition
+                                        as={Fragment} enter="transition ease-out duration-200" enterFrom="opacity-0 translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 translate-y-1" >
+                                        <Popover.Panel className="fixed -right-1 top-16 mt-3 w-[99%] max-w-sm   px-4 sm:px-0 max-h-96 overflow-scroll scroller ">
+                                            <div className="  overflow-hidden bg-white py-5 dark:bg-slate-800 dark:text-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 ">
+                                                <Notificationn msg={msg} />
+                                            </div>
+                                        </Popover.Panel>
+                                    </Transition>
+                                </Fragment>
+                            )}
+                        </Popover>
 
 
+                        <XMarkIcon className=' w-8  hover:bg-slate-900/70 rounded-md cursor-pointer transition-all' onClick={() => setsbm(!sbm)} />
+
+
+                    </div>
 
 
 
@@ -262,8 +265,8 @@ const [nosearchval, nosetsearchval] = useState();
 
                 </form>
                 <div className=' flex flex-col border-b-2 border-slate-600 my-2'>
-                
-               <div className=" w-full text-center">{nosearchval}</div>
+
+                    <div className=" w-full text-center">{nosearchval}</div>
 
                     {searchresult.map(e => <div key={e.uid} onClick={() => { !user.friends.includes(e.uid) && selected(e) }} className=' w-full justify-between h-16 flex items-center border-b-[0.5px] border-slate-700 mx-auto hover:bg-slate-800 cursor-pointer'>
                         <div className='flex items-center'>
@@ -280,7 +283,11 @@ const [nosearchval, nosetsearchval] = useState();
 
 
 
-                <Chats /></> : <div className=' w-full h-full flex items-center flex-col'>
+                <div  onClick={() => setsbm(!sbm)}>
+                <Chats />
+                </div>
+                
+                </> : <div className=' w-full h-full flex items-center flex-col'>
 
                 <div className=' max-w-32 max-h-32 mt-20 overflow-hidden flex items-center justify-center rounded-full'>
                     <img src={user.image} className='w-32' alt="" />
@@ -330,6 +337,7 @@ const [nosearchval, nosetsearchval] = useState();
                 <button onClick={logout} className=' px-3 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white my-4'>LogOut</button>
             </div>}
         </div>
+    </>
     )
 }
 

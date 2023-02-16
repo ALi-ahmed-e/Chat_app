@@ -24,15 +24,18 @@ const Notificationn = ({ msg }) => {
 
     }
 
+
     return (
         <div>
-        {msgs.messages != ''?<>
-        
-        <div className=" w-full text-center">
-        <button onClick={clear} className=" px-2 py-1 mx-auto rounded-md bg-red-700 hover:bg-red-800 ">Clear  {msgs.messages?.length} </button>
-            </div>
 
-            <div className=" h-[1px] w-[95%] bg-slate-500 mx-auto my-4" /></>:<div className=" w-full text-center">No notifications</div>}
+
+            {msgs.messages != '' ? <>
+
+                <div className=" w-full text-center">
+                    <button onClick={clear} className=" px-2 py-1 mx-auto rounded-md bg-red-700 hover:bg-red-800 ">Clear  {msgs.messages?.length} </button>
+                </div>
+
+                <div className=" h-[1px] w-[95%] bg-slate-500 mx-auto my-4" /></> : <div className=" w-full text-center">No notifications</div>}
 
 
 
@@ -48,7 +51,7 @@ const Notificationn = ({ msg }) => {
                                     {e.senderName}
                                 </div>
                                 <p className="text-sm text-gray-500 leading-none mt-1  ">
-                                    {e.text.length > 6 ? `${e.text.slice(0,8)}...`:e.text}
+                                    {e.text.length > 6 ? `${e.text.slice(0, 8)}...` : e.text}
                                 </p>
                             </div>
                         </div>
