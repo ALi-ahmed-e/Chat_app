@@ -283,7 +283,7 @@ const SideMenu = () => {
 
 
 
-                <div  onClick={() => setsbm(!sbm)}>
+                <div  onClick={() =>window.innerWidth < 640 && setsbm(!sbm)}>
                 <Chats />
                 </div>
                 

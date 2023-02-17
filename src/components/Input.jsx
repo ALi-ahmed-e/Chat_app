@@ -123,7 +123,7 @@ const Input = ({ chatId, other }) => {
 
         <div className=' flex items-center w-full'>
 
-            <input name='text' placeholder='Send message...' type="text" className=' border-none outline-none bg-slate-100 text-black w-[90%] py-3 px-2' />
+            <input name='text' placeholder='Send message...' required type="text" className=' border-none outline-none bg-slate-100 text-black w-[90%] py-3 px-2' />
 
             <label htmlFor="upload-photo" >
                 <div>

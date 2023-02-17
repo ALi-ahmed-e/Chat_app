@@ -51,7 +51,7 @@ const Messages = ({ chatId, other }) => {
 
                 <div ref={msgRef} className={`${msg.senderId == user.uid ? 'bg-green-700' : 'bg-slate-500'} max-w-[220px]  py-2 w-fit px-2 rounded-lg flex flex-col items-center justify-between `}>
 
-                    {msg.img && <div className=' max-h-72 max-w-72 overflow-hidden  rounded-md -mx-2 cursor-pointer' onClick={() => setimg2show(msg.img)}>
+                    {msg.img && <div className=' max-h-72 max-w-72 overflow-hidden  rounded-md -mx-1 cursor-pointer' onClick={() => setimg2show(msg.img)}>
                         <img src={msg.img} alt="" />
                     </div>}
 
